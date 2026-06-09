@@ -1,0 +1,362 @@
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  animation: fadeIn 0.5s ease-in-out;
+
+  .profile-header {
+    margin-bottom: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-light), #ffffff);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--primary-light) 0%, rgba(255,255,255,0) 70%);
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-right: 1.5rem;
+      transition: var(--transition);
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    mat-card-title {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    mat-card-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+  }
+
+  ::ng-deep .mat-mdc-tab-group {
+    .mat-mdc-tab-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+    
+    .mat-mdc-tab {
+      min-width: 120px;
+      transition: var(--transition);
+      
+      .mdc-tab__text-label {
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+      
+      &.mdc-tab--active {
+        .mdc-tab__text-label {
+          color: var(--primary-color);
+        }
+        
+        .mdc-tab-indicator__content--underline {
+          border-color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    padding: 1rem 0;
+    // Updated to use uk-grid classes from HTML for layout control
+    // display: grid;
+    // grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    // gap: 2rem; 
+  }
+
+  .item-card, .bid-card {
+    transition: var(--transition);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: 100%; // Ensure cards in a grid take full height of their cell
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    mat-card-header {
+      padding: 1.2rem 1.2rem 0.8rem;
+      
+      mat-card-title {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+      
+      mat-card-subtitle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem; // Standardize subtitle font size
+        
+        // Remove old span-based styling, use direct class styling on subtitle
+        // span {
+        //   padding: 4px 12px;
+        //   border-radius: 16px;
+        //   font-size: 0.8rem;
+        //   font-weight: 500;
+          
+        //   &.ended {
+        //     background-color: #ffebee;
+        //     color: var(--danger-color);
+        //   }
+          
+        //   &.active {
+        //     background-color: var(--primary-light);
+        //     color: var(--primary-dark);
+        //   }
+          
+        //   &.winning {
+        //     background-color: #e6f7e7;
+        //     color: var(--success-color);
+        //   }
+        // }
+      }
+    }
+
+    mat-card-content {
+      flex-grow: 1;
+      padding: 0 1.2rem 1rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      
+      p {
+        margin-bottom: 0.8rem;
+      }
+    }
+    
+    mat-card-actions {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 1.2rem;
+      background-color: #f9f9fb;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      
+      button {
+        width: 100%;
+        transition: var(--transition);
+        
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+
+  .no-data {
+    grid-column: 1 / -1; // Ensure it spans if parent is still grid
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    mat-icon {
+      font-size: 2.5rem; // Larger icon for no-data
+      margin-bottom: 1rem;
+      color: var(--text-muted, #6c757d);
+    }
+  }
+}
+
+// Additional status styles for profile page
+.item-card, .bid-card {
+  mat-card-subtitle {
+    // General status styling if not already covered
+    // Styles for listed items
+    &.status-active {
+      // Using a border for active items can be subtle and nice
+      // border-left: 4px solid var(--info-color, #2196f3);
+      // color: var(--info-dark, #0d8abd);
+      // background-color: var(--info-light, #e3f2fd);
+      // padding: 4px 8px;
+      // border-radius: 4px;
+      font-weight: 500;
+    }
+    &.status-ended-winner {
+      color: var(--success-dark, #1e8e3e);
+      background-color: var(--success-light, #e6f4ea);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    &.status-ended-no-winner {
+      color: var(--warning-dark, #b26400); // Using a warning color for unsold
+      background-color: var(--warning-light, #fff8e1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    // Styles for bidding activity items
+    &.status-won {
+      color: var(--success-dark, #1e8e3e);
+      background-color: var(--success-light, #e6f4ea);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+      display: inline-flex; // To align icon and text
+      align-items: center;
+      mat-icon {
+        color: var(--success-dark, #1e8e3e);
+        vertical-align: middle;
+        margin-right: 4px;
+        font-size: 1.2em; // Slightly larger icon
+      }
+    }
+    &.status-lost {
+      color: var(--text-secondary, #545454); // Muted color for lost
+      background-color: var(--neutral-light, #f1f3f5);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Distinct card styles for bidding activity
+.active-bid-card {
+  // border-left: 5px solid var(--info-color, #17a2b8);
+  // Consider a subtle background or top border
+  background-color: var(--info-ultralight, #e7f7fa); // Subtle background for active bids
+}
+
+.won-auction-card {
+  border-left: 5px solid var(--success-color, #28a745);
+  background-color: var(--success-ultralight, #f0fff4); 
+  mat-card-title {
+    color: var(--success-dark, #1e8e3e);
+  }
+}
+
+.lost-auction-card {
+  border-left: 5px solid var(--neutral-color-darker, #adb5bd); // Darker neutral for lost border
+  background-color: var(--neutral-ultralight, #f8f9fa); 
+  opacity: 0.9; // Slightly faded out
+}
+
+// Loading spinner alignment and message
+.loading-spinner {
+  grid-column: 1 / -1; // Make spinner span all columns if in a grid
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  min-height: 200px; // Ensure it takes some space
+  p {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+  }
+}
+
+// Ensure heading dividers have a consistent style
+.uk-heading-divider {
+  border-bottom: 1px solid var(--divider-color, rgba(0,0,0,0.12));
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1.5rem;
+    
+    .profile-header {
+      padding: 1.5rem;
+      
+      .profile-picture {
+        width: 80px;
+        height: 80px;
+      }
+      
+      mat-card-title {
+        font-size: 1.5rem;
+      }
+      
+      mat-card-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    ::ng-deep .mat-mdc-tab {
+      min-width: 100px;
+      .mdc-tab__text-label {
+        font-size: 0.9rem;
+      }
+    }
+
+    // .tab-content for smaller screens - uk-grid should handle responsiveness
+    // .tab-content {
+    //   grid-template-columns: 1fr;
+    //   gap: 1.5rem;
+    // }
+
+    .item-card, .bid-card {
+      mat-card-header {
+        padding: 1rem;
+        mat-card-title {
+          font-size: 1.1rem;
+        }
+      }
+      mat-card-content {
+        padding: 0 1rem 1rem;
+        font-size: 0.9rem;
+      }
+      mat-card-actions {
+        padding: 0.8rem 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    .profile-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      
+      .profile-picture {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}

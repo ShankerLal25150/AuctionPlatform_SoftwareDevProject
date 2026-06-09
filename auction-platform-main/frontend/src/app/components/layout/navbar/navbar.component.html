@@ -1,0 +1,159 @@
+<mat-toolbar color="primary">
+  <div class="container">
+    <div class="navbar-content">
+      <div class="navbar-left">
+        <a routerLink="/" class="brand">
+          <span class="logo">🏆</span>
+          <span class="brand-text">Auction Hub</span>
+        </a>
+        <div class="nav-links desktop-only">
+          <button mat-button routerLink="/items" class="nav-link">
+            <mat-icon>gavel</mat-icon>
+            <span>Browse Auctions</span>
+          </button>
+          <button
+            mat-button
+            routerLink="/items/create"
+            *ngIf="isLoggedIn() && isSeller()"
+            class="nav-link"
+          >
+            <mat-icon>add_circle</mat-icon>
+            <span>Create Auction</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <!-- Logged in user menu -->
+        <ng-container *ngIf="isLoggedIn()">
+          <div class="user-profile">
+            <button mat-button [matMenuTriggerFor]="userMenu" class="profile-button">
+              <div class="avatar-container">
+                <img *ngIf="currentUser?.profilePicture" [src]="currentUser?.profilePicture" class="profile-image" alt="Profile picture">
+                <div *ngIf="!currentUser?.profilePicture" class="avatar-circle">
+                  <span>{{ getUserInitials() }}</span>
+                </div>
+              </div>
+              <div class="user-info desktop-only">
+                <span class="user-name">{{ currentUser?.name }}</span>
+              </div>
+              <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu" class="profile-menu">
+              <div class="menu-header">
+                <div class="avatar-container">
+                  <img *ngIf="currentUser?.profilePicture" [src]="currentUser?.profilePicture" class="profile-image large" alt="Profile picture">
+                  <div *ngIf="!currentUser?.profilePicture" class="avatar-circle large">
+                    <span>{{ getUserInitials() }}</span>
+                  </div>
+                </div>
+                <div class="menu-user-info">
+                  <span class="menu-user-name">{{ currentUser?.name }}</span>
+                  <span class="menu-user-email">{{ currentUser?.email }}</span>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+              <button mat-menu-item routerLink="/profile">
+                <mat-icon>person</mat-icon>
+                <span>My Profile</span>
+              </button>
+              <!-- <button mat-menu-item routerLink="/profile/bids">
+                <mat-icon>gavel</mat-icon>
+                <span>My Bids</span>
+              </button>
+              <button mat-menu-item routerLink="/profile/items">
+                <mat-icon>inventory</mat-icon>
+                <span>My Auctions</span>
+              </button> -->
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sign Out</span>
+              </button>
+            </mat-menu>
+          </div>
+        </ng-container>
+        
+        <!-- Login/Register buttons -->
+        <ng-container *ngIf="!isLoggedIn()">
+          <div class="auth-buttons">
+            <button mat-raised-button color="accent" routerLink="/login" class="login-button">
+              <mat-icon style="color: white;">login</mat-icon>
+              <span style="color: white;">Sign In</span>
+            </button>
+            <button mat-button routerLink="/register" class="register-button">
+              <mat-icon style="color: white;">person_add</mat-icon>
+              <span style="color: white;" class="desktop-only">Register</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Mobile menu toggle -->
+        <button mat-icon-button class="mobile-menu-toggle mobile-only" (click)="toggleMobileMenu()">
+          <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" [class.open]="isMobileMenuOpen">
+  <div class="mobile-menu-content">
+    <button mat-button routerLink="/items" class="mobile-nav-link" (click)="closeMobileMenu()">
+      <mat-icon>gavel</mat-icon>
+      <span>Browse Auctions</span>
+    </button>
+    <button
+      mat-button
+      routerLink="/items/create"
+      *ngIf="isLoggedIn() && isSeller()"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      <mat-icon>add_circle</mat-icon>
+      <span>Create Auction</span>
+    </button>
+    <mat-divider *ngIf="isLoggedIn()"></mat-divider>
+    <button 
+      mat-button 
+      routerLink="/profile" 
+      *ngIf="isLoggedIn()" 
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      <mat-icon>person</mat-icon>
+      <span>My Profile</span>
+    </button>
+    <button 
+      mat-button 
+      routerLink="/profile/bids" 
+      *ngIf="isLoggedIn() && isBuyer()" 
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      <mat-icon>gavel</mat-icon>
+      <span>My Bids</span>
+    </button>
+    <button 
+      mat-button 
+      routerLink="/profile/items" 
+      *ngIf="isLoggedIn() && isSeller()" 
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      <mat-icon>inventory</mat-icon>
+      <span>My Auctions</span>
+    </button>
+    <mat-divider *ngIf="isLoggedIn()"></mat-divider>
+    <button 
+      mat-button 
+      *ngIf="isLoggedIn()" 
+      class="mobile-nav-link logout"
+      (click)="logout(); closeMobileMenu()"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Sign Out</span>
+    </button>
+  </div>
+</div>

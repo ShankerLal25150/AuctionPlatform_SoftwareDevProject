@@ -1,0 +1,82 @@
+<div class="item-detail-container">
+  <ng-container *ngIf="item && (currentUser$ | async) as currentUser; else loading">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ item.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <span [class.ended]="isAuctionEnded()">
+            {{ isAuctionEnded() ? "Auction Ended" : getTimeLeft() }}
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="description">{{ item.description }}</p>
+
+        <mat-divider></mat-divider>
+
+        <div class="price-info">
+          <h2>Current Price: {{ item.currentPrice | currency }}</h2>
+          <p>Starting Price: {{ item.startingPrice | currency }}</p>
+          <p>
+            <mat-icon>schedule</mat-icon>
+            End Time: {{ item.endTime | date : "medium" }}
+          </p>
+        </div>
+
+        <div class="bid-form" *ngIf="!isAuctionEnded()">
+          <form [formGroup]="bidForm" (ngSubmit)="onSubmitBid()">
+            <mat-form-field appearance="outline">
+              <mat-label>Your Bid</mat-label>
+              <input matInput type="number" formControlName="amount" [min]=item.currentPrice step="1" />
+              <mat-error *ngIf="bidForm.get('amount')?.hasError('required')">
+                Bid amount is required
+              </mat-error> <mat-error *ngIf="bidForm.get('amount')?.hasError('min')">
+                Minimum bid amount is {{ item.currentPrice + 1 | currency }}
+              </mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="bidForm.invalid || isPlacingBid">
+              Place Bid
+            </button>
+          </form>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <mat-card class="bid-history">
+          <mat-card-header>
+            <mat-card-title>Bid History</mat-card-title>
+          </mat-card-header>
+          <app-price-history-chart [bids]="bids"></app-price-history-chart>
+          <mat-card-content>
+            <mat-divider *ngIf="bids.length > 0" style="margin-top: 16px; margin-bottom: 16px;"></mat-divider>
+            <div class="bid-list">
+              <mat-list>
+                <mat-list-item *ngFor="let bid of bids">
+                  <div class="bid-item">
+                    <span class="bidder">{{ bid.bidder.name }}</span>
+                    <span class="amount">{{ bid.amount | currency }}</span>
+                    <span class="time">{{
+                      bid.bidTime | date : "medium"
+                      }}</span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+              <div *ngIf="bids.length === 0" class="no-bids">
+                No bids yet. Be the first to bid!
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+    
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,154 @@
+<div class="profile-container" *ngIf="user">
+  <mat-card class="profile-header uk-card uk-card-default uk-card-body uk-margin-bottom">
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        [src]="user.profilePicture || 'assets/default-profile.png'"
+        [alt]="user.name"
+        class="profile-picture uk-border-circle"
+      />
+      <mat-card-title class="uk-card-title">{{ user.name }}</mat-card-title>
+      <mat-card-subtitle class="uk-text-meta">{{ user.email }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="My Listed Auctions">
+      <div class="tab-content uk-padding-small">
+        <div *ngIf="isLoadingListedItems" class="loading-spinner uk-text-center">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Loading your listed auctions...</p>
+        </div>
+
+        <div *ngIf="!isLoadingListedItems">
+          <div *ngIf="userItems.length === 0" class="no-data uk-text-center uk-text-muted">
+            <p><mat-icon>info_outline</mat-icon> You haven't listed any auctions yet.</p>
+          </div>
+
+          <div class="uk-grid uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+            <div *ngFor="let item of userItems">
+              <mat-card class="item-card uk-card uk-card-default uk-card-hover uk-margin-bottom">
+                <mat-card-header>
+                  <mat-card-title class="uk-card-title uk-text-truncate">{{ item.title }}</mat-card-title>
+                  <mat-card-subtitle [ngClass]="getListedItemStatus(item).cssClass">
+                    {{ getListedItemStatus(item).text }}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="uk-card-body">
+                  <p>Current Price: <strong>{{ item.currentPrice | currency }}</strong></p>
+                  <p>End Time: {{ item.endTime | date : "medium" }}</p>
+                </mat-card-content>
+                <mat-card-actions class="uk-card-footer">
+                  <button mat-stroked-button color="primary" [routerLink]="['/items', item.id]" class="uk-button uk-button-primary uk-button-small">
+                    <mat-icon>visibility</mat-icon> View Details
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Bidding Activity">
+      <div class="tab-content uk-padding-small">
+        <div *ngIf="isLoadingBiddingActivity" class="loading-spinner uk-text-center">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Loading your bidding activity...</p>
+        </div>
+
+        <div *ngIf="!isLoadingBiddingActivity">
+          <!-- Active Bids Section -->
+          <section class="uk-margin-medium-bottom">
+            <h2 class="uk-heading-divider">Active Bids</h2>
+            <div *ngIf="activeBiddedItems.length === 0" class="no-data uk-text-center uk-text-muted">
+              <p><mat-icon>info_outline</mat-icon> You have no active bids on ongoing auctions.</p>
+            </div>
+            <div class="uk-grid uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+              <div *ngFor="let item of activeBiddedItems">
+                <mat-card class="bid-card active-bid-card uk-card uk-card-default uk-card-hover uk-margin-bottom">
+                  <mat-card-header>
+                    <mat-card-title class="uk-card-title uk-text-truncate">{{ item.title }}</mat-card-title>
+                    <mat-card-subtitle class="status-active">Status: ACTIVE</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content class="uk-card-body">
+                    <p>Your Highest Bid: <strong>{{ item.userHighestBid | currency }}</strong></p>
+                    <p>Current Auction Price: <strong>{{ item.currentPrice | currency }}</strong></p>
+                    <p>Ends: {{ item.endTime | date : "medium" }}</p>
+                  </mat-card-content>
+                  <mat-card-actions class="uk-card-footer">
+                    <button mat-stroked-button color="primary" [routerLink]="['/items', item.id]" class="uk-button uk-button-primary uk-button-small">
+                      <mat-icon>gavel</mat-icon> View Auction
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </section>
+
+          <!-- Auctions Won Section -->
+          <section class="uk-margin-medium-bottom">
+            <h2 class="uk-heading-divider">Auctions Won</h2>
+            <div *ngIf="wonAuctions.length === 0" class="no-data uk-text-center uk-text-muted">
+              <p><mat-icon>emoji_events</mat-icon> You haven't won any auctions yet.</p>
+            </div>
+            <div class="uk-grid uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+              <div *ngFor="let item of wonAuctions">
+                <mat-card class="bid-card won-auction-card uk-card uk-card-secondary uk-card-hover uk-margin-bottom">
+                  <mat-card-header>
+                    <mat-card-title class="uk-card-title uk-text-truncate">{{ item.title }}</mat-card-title>
+                    <mat-card-subtitle class="status-won"><mat-icon>emoji_events</mat-icon> Status: WON</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content class="uk-card-body">
+                    <p>Winning Bid: <strong>{{ (item.winningBidAmount !== undefined ? item.winningBidAmount : item.userHighestBid) | currency }}</strong></p>
+                    <p>Ended: {{ item.endTime | date : "medium" }}</p>
+                  </mat-card-content>
+                  <mat-card-actions class="uk-card-footer">
+                    <button mat-stroked-button [routerLink]="['/items', item.id]" class="uk-button uk-button-default uk-button-small">
+                      <mat-icon>receipt_long</mat-icon> View Item
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </section>
+
+          <!-- Auctions Lost/Participated Section -->
+          <section>
+            <h2 class="uk-heading-divider">Auctions Lost / Participated</h2>
+            <div *ngIf="lostAuctions.length === 0" class="no-data uk-text-center uk-text-muted">
+              <p><mat-icon>sentiment_dissatisfied</mat-icon> No auctions lost or ended where you participated but didn't win.</p>
+            </div>
+            <div class="uk-grid uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+              <div *ngFor="let item of lostAuctions">
+                <mat-card class="bid-card lost-auction-card uk-card uk-card-default uk-card-hover uk-margin-bottom">
+                  <mat-card-header>
+                    <mat-card-title class="uk-card-title uk-text-truncate">{{ item.title }}</mat-card-title>
+                    <mat-card-subtitle class="status-lost">
+                      Status: {{ item.winner ? 'LOST (Winner: ' + (item.winner.name || 'N/A') + ')' : 'ENDED (No Winner)' }}
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content class="uk-card-body">
+                    <p>Your Highest Bid: <strong>{{ item.userHighestBid | currency }}</strong></p>
+                    <p>Final Price: <strong>{{ (item.status === 'SOLD' && item.winningBidAmount !== undefined ? item.winningBidAmount : item.currentPrice) | currency }}</strong></p>
+                    <p>Ended: {{ item.endTime | date : "medium" }}</p>
+                  </mat-card-content>
+                  <mat-card-actions class="uk-card-footer">
+                    <button mat-stroked-button color="primary" [routerLink]="['/items', item.id]" class="uk-button uk-button-primary uk-button-small">
+                      <mat-icon>pageview</mat-icon> View Auction
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<div *ngIf="!user" class="uk-text-center uk-padding">
+  <p>Please log in to view your profile.</p>
+  <button mat-raised-button color="primary" routerLink="/login">Login</button>
+</div>

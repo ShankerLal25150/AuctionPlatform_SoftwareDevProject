@@ -1,0 +1,70 @@
+<div class="items-container">
+  <div class="header">
+    <h1>Active Auctions</h1>
+    <button mat-raised-button color="primary" routerLink="/items/create" *ngIf="(currentUser$ | async)?.role === 'SELLER'">
+      <mat-icon>add</mat-icon>
+      Create New Auction
+    </button>
+  </div>
+
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search auctions</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearch()" placeholder="Search by title">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    
+    <div class="price-filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Min Price</mat-label>
+        <input matInput type="number" [(ngModel)]="minPrice" (ngModelChange)="onSearch()">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Max Price</mat-label>
+        <input matInput type="number" [(ngModel)]="maxPrice" (ngModelChange)="onSearch()">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="items-grid" *ngIf="!isLoading; else loading">
+    <mat-card *ngFor="let item of items" class="item-card" (click)="navigateToItem(item.id)">
+      <mat-card-header>
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-card-subtitle>Current Bid: {{item.currentPrice | currency}}</mat-card-subtitle>
+      </mat-card-header>
+        <mat-card-content>
+        <p>{{item.description | slice:0:100}}...</p>
+        <div class="auction-info">
+          <span class="time-left" [class.ending-soon]="isEndingSoon(item)">
+            <mat-icon>schedule</mat-icon>
+            {{getTimeLeft(item)}}
+          </span>
+          <span class="bid-count">
+            <mat-icon>gavel</mat-icon>
+            {{item.bids?.length || 0}} bids
+          </span>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="navigateToItem(item.id); $event.stopPropagation()">
+          View Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <p>Loading auctions...</p>
+    </div>
+  </ng-template>
+
+  <div class="no-items" *ngIf="!isLoading && items.length === 0">
+    <mat-icon>sentiment_dissatisfied</mat-icon>
+    <h3>No auctions found</h3>
+    <p>Check back later for new items or create your own auction!</p>
+  </div>
+</div>

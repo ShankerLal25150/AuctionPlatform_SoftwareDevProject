@@ -1,0 +1,310 @@
+.item-detail-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  animation: fadeIn 0.5s ease-in-out;
+
+  mat-card {
+    margin-bottom: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    padding: 0;
+    
+    mat-card-header {
+      padding: 1.5rem 1.5rem 1rem;
+      background: linear-gradient(135deg, var(--primary-light), #ffffff);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      
+      mat-card-title {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 0.8rem;
+      }
+      
+      mat-card-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+      }
+    }
+    
+    mat-card-content {
+      padding: 1.5rem;
+    }
+  }
+
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    padding: 1.5rem;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .price-info {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--accent-color);
+        border-radius: 2px;
+      }
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1rem 0;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      
+      strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+      
+      mat-icon {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .bid-form {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    
+    h3 {
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    
+    form {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+
+      mat-form-field {
+        flex: 1;
+      }
+      
+      button {
+        margin-top: 4px;
+        transition: var(--transition);
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+  }
+
+  .bid-history {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    
+    h3 {
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    
+    .bid-list {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      
+      /* Custom scrollbar */
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: var(--primary-light);
+        border-radius: 3px;
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
+      }
+      
+      .bid-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+        background-color: #f9f9fb;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        
+        &:hover {
+          background-color: var(--primary-light);
+          transform: translateX(4px);
+        }
+        
+        .bidder {
+          flex: 1;
+          font-weight: 500;
+          color: var(--text-primary);
+        }
+        
+        .amount {
+          flex: 1;
+          text-align: right;
+          color: var(--success-color);
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+        
+        .time {
+          flex: 1;
+          text-align: right;
+          color: var(--text-light);
+          font-size: 0.9rem;
+        }
+      }
+    }
+    
+    .no-bids {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--text-secondary);
+      background-color: #f9f9fb;
+      border-radius: var(--border-radius);
+      font-size: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      
+      &:before {
+        content: '🏷️';
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .loading-container {
+    padding: 3rem;
+    text-align: center;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    
+    mat-progress-spinner {
+      margin: 0 auto 1.5rem;
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    
+    button {
+      flex: 1;
+      transition: var(--transition);
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+.ended {
+  background-color: #ffebee !important;
+  color: var(--danger-color) !important;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+.active {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+mat-divider {
+  margin: 2rem 0;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .item-detail-container {
+    padding: 1.5rem;
+    
+    .bid-form form {
+      flex-direction: column;
+      
+      button {
+        width: 100%;
+      }
+    }
+    
+    .bid-history .bid-list .bid-item {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .bidder, .amount, .time {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0.5rem;
+      }
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+}

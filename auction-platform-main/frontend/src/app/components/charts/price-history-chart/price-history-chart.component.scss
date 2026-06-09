@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    /* Ensures the component takes up block space */
+    position: relative;
+    /* Important for z-index and child positioning if needed */
+    width: 100%;
+    min-height: 300px;
+    /* Give it a minimum height to ensure it has space */
+    // border: 1px solid red;
+    /* Temporary border to see its boundaries */
+    z-index: 1;
+    /* Attempt to bring it forward, though might need to be higher */
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    isolation: isolate;
+    z-index: 2;
+    /* Let Chart.js manage canvas height based on container */
+}

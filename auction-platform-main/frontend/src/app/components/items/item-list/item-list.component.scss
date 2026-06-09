@@ -1,0 +1,259 @@
+.items-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      margin: 0;
+      position: relative;
+      display: inline-block;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--accent-color);
+        border-radius: 2px;
+      }
+    }
+    
+    button {
+      transition: var(--transition);
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  .filters {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+
+    .price-filters {
+      display: flex;
+      gap: 1.5rem;
+      flex: 1;
+    }
+    
+    mat-form-field {
+      flex: 2;
+    }
+  }
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.item-card {
+  cursor: pointer;
+  transition: var(--transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  mat-card-header {
+    padding: 1.2rem 1.2rem 0.8rem;
+    
+    mat-card-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    
+    mat-card-subtitle {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+  }
+
+  mat-card-content {
+    flex-grow: 1;
+    padding: 0 1.2rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .auction-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+    padding: 0.8rem;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius);
+
+    .time-left,
+    .bid-count {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+
+      mat-icon {
+        font-size: 1.1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        color: var(--primary-color);
+      }
+    }
+
+    .time-left.ending-soon {
+      color: var(--danger-color);
+      
+      mat-icon {
+        color: var(--danger-color);
+      }
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1.2rem;
+    background-color: #f9f9fb;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    
+    button {
+      width: 100%;
+      transition: var(--transition);
+      
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+.loading-container {
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin: 2rem 0;
+
+  mat-progress-bar {
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  p {
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+}
+
+.no-items {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin: 2rem 0;
+
+  mat-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-weight: 300;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .items-container {
+    padding: 1.5rem;
+    
+    .header {
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      
+      h1 {
+        font-size: 1.8rem;
+        
+        &:after {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+      
+      button {
+        width: 100%;
+      }
+    }
+
+    .filters {
+      flex-direction: column;
+      padding: 1.2rem;
+      
+      .price-filters {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  }
+  
+  .items-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
